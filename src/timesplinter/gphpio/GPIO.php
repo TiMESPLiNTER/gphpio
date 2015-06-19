@@ -11,7 +11,7 @@ class GPIO
 	const MODE_INPUT = 'in';
 	const MODE_OUTPUT = 'out';
 
-	const SYSFS_PATH = '/sys/class/gpio/gpio%c/';
+	const SYSFS_PATH = '/sys/class/gpio/gpio%s/';
 
 	public function export($pin, $mode = null)
 	{
