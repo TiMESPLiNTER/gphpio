@@ -1,4 +1,4 @@
-# php-gpio
+# gphpio
 
 This library provides a nice OO interface to interact with the GPIO pins of RaspberryPi (2).
 
