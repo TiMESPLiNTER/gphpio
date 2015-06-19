@@ -1,0 +1,25 @@
+{
+	"name": "timesplinter/php-gpio",
+	"type": "library",
+	"description": "Library to handle GPIO",
+	"keywords": ["GPIO", "rpi", "rpi2", "RaspberryPi"],
+	"homepage": "http://github.com/TiMESPLiNTER/php-gpio",
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"timesplinter\\": "src/ch/timesplinter/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Pascal Muenst",
+			"email": "dev@timesplinter.ch",
+			"homepage": "http://www.timesplinter.ch",
+			"role": "Developer"
+		}
+	],
+
+	"require": {
+		"php": ">=5.5.0"
+	}
+}
