@@ -1,6 +1,6 @@
 # php-gpio
 
-This library provides a nice OO interface to interact with the GPIO pins of for example RaspberryPi (2).
+This library provides a nice OO interface to interact with the GPIO pins of RaspberryPi (2).
 
 ## Setup
 
@@ -18,15 +18,17 @@ The "Hello world" LED-blink script would look like that:
 $gpio = new GPIO();
 $pin = 17;
 
-$gpio->bindPin($pin, GPIO::MODE_OUTPUT);
+$gpio->export($pin, GPIO::MODE_OUTPUT);
 
-while(true) {
-	$gpio->writePin($pin, 1);
-	echo 'The pin is now: ' , $gpio->readPin($pin) , PHP_EOL;
+for($i = 0; $i < 10; ++$i) {
+	$gpio->write($pin, 1);
+	echo 'The pin is now: ' , $gpio->read($pin) , PHP_EOL;
 	sleep(1);
 
-	$gpio->writePin($pin, 0);
-	echo 'The pin is now: ' , $gpio->readPin($pin) , PHP_EOL;
+	$gpio->write($pin, 0);
+	echo 'The pin is now: ' , $gpio->read($pin) , PHP_EOL;
 	sleep(1);
 }
+
+$gpio->unexport($pin);
 ```

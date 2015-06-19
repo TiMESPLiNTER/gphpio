@@ -11,7 +11,7 @@ class GPIO
 
 	const SYSFS_PATH = '/sys/class/gpio/gpio%c/';
 
-	public function bindPin($pin, $mode = null)
+	public function export($pin, $mode = null)
 	{
 		if(file_exists(sprintf(self::SYSFS_PATH, $pin)) === true)
 			return false;
@@ -22,10 +22,10 @@ class GPIO
 		if($mode === null)
 			return true;
 
-		return $this->setMode($pin, $mode);
+		return $this->mode($pin, $mode);
 	}
 
-	public function unbindPin($pin)
+	public function unexport($pin)
 	{
 		if(file_exists(sprintf(self::SYSFS_PATH, $pin)) === false)
 			return false;
@@ -36,17 +36,17 @@ class GPIO
 		return file_exists(sprintf(self::SYSFS_PATH, $pin)) === false;
 	}
 
-	public function setPinMode($pin, $mode)
+	public function mode($pin, $mode)
 	{
 		return file_put_contents(sprintf(self::SYSFS_PATH, $pin) . 'direction', $mode) !== false;
 	}
 
-	public function readPin($pin)
+	public function read($pin)
 	{
 		return trim(file_get_contents(sprintf(self::SYSFS_PATH, $pin) . 'value'));
 	}
 
-	public function writePin($pin, $value)
+	public function write($pin, $value)
 	{
 		return file_put_contents(sprintf(self::SYSFS_PATH, $pin) . 'value', $value) !== false;
 	}

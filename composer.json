@@ -1,13 +1,13 @@
 {
-	"name": "timesplinter/php-gpio",
+	"name": "timesplinter/gphpio",
 	"type": "library",
 	"description": "Library to handle GPIO",
 	"keywords": ["GPIO", "rpi", "rpi2", "RaspberryPi"],
-	"homepage": "http://github.com/TiMESPLiNTER/php-gpio",
+	"homepage": "http://github.com/TiMESPLiNTER/gphpio",
 	"license": "MIT",
 	"autoload": {
 		"psr-4": {
-			"timesplinter\\": "src/ch/timesplinter/"
+			"timesplinter\\": "src/timesplinter/"
 		}
 	},
 	"authors": [
