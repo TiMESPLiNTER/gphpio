@@ -29,13 +29,18 @@ class GPIO
 
 	public function unexport($pin)
 	{
-		if(file_exists(sprintf(self::SYSFS_PATH, $pin)) === false)
+		if($this->isExported($pin) === false)
 			return false;
 
 		if(file_put_contents(self::SYSFS_PATH . 'unexport', $pin) === false)
 			return false;
 
 		return file_exists(sprintf(self::SYSFS_PATH, $pin)) === false;
+	}
+
+	public function isExported($pin)
+	{
+		return file_exists(sprintf(self::SYSFS_PATH, $pin)) !== false;
 	}
 
 	public function mode($pin, $mode)
