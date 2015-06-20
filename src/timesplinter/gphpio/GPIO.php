@@ -13,8 +13,19 @@ class GPIO
 
 	const SYSFS_PATH = '/sys/class/gpio/gpio%s/';
 
+	/** @var Model */
+	protected $model;
+
+	public function __construct(Model $model)
+	{
+		$this->model = $model;
+	}
+
 	public function export($pin, $mode = null)
 	{
+		if($this->isValid($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not a valid GPIO pin for this model');
+
 		if($this->isExported($pin) === true)
 			throw new GPIOException('Pin #' . $pin . ' is already exported');
 
@@ -29,6 +40,9 @@ class GPIO
 
 	public function unexport($pin)
 	{
+		if($this->isValid($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not a valid GPIO pin for this model');
+
 		if($this->isExported($pin) === false)
 			throw new GPIOException('Pin #' . $pin . ' is not exported');
 
@@ -40,16 +54,30 @@ class GPIO
 
 	public function isExported($pin)
 	{
+		if($this->isValid($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not a valid GPIO pin for this model');
+
 		return file_exists(sprintf(self::SYSFS_PATH, $pin)) !== false;
+	}
+
+	public function isValid($pin)
+	{
+		return in_array($pin, $this->model->getGPIOPins());
 	}
 
 	public function mode($pin, $mode)
 	{
+		if($this->isValid($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not a valid GPIO pin for this model');
+
 		return file_put_contents(sprintf(self::SYSFS_PATH, $pin) . 'direction', $mode) !== false;
 	}
 
 	public function read($pin)
 	{
+		if($this->isValid($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not a valid GPIO pin for this model');
+
 		if($this->isExported($pin) === false)
 			throw new GPIOException('Pin #' . $pin . ' is not exported');
 
@@ -58,6 +86,9 @@ class GPIO
 
 	public function write($pin, $value)
 	{
+		if($this->isValid($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not a valid GPIO pin for this model');
+
 		if($this->isExported($pin) === false)
 			throw new GPIOException('Pin #' . $pin . ' is not exported');
 
