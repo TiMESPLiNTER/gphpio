@@ -40,7 +40,7 @@ class RPi extends Model
 		if(($content = file_get_contents('/proc/cpuinfo')) === false)
 			return false;
 
-		if(preg_match('/Revision\s+:\s+/([a-f0-9]+)', $content, $match) === 0)
+		if(preg_match('/Revision\s+:\s+([a-f0-9]+)/', $content, $match) === 0)
 			return false;
 
 		return $match[1];
