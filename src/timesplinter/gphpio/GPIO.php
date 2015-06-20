@@ -15,8 +15,8 @@ class GPIO
 
 	public function export($pin, $mode = null)
 	{
-		if(file_exists(sprintf(self::SYSFS_PATH, $pin)) === true)
-			return false;
+		if($this->isExported($pin) === true)
+			throw new GPIOException('Pin #' . $pin . ' is already exported');
 
 		if(file_put_contents(self::SYSFS_PATH . 'export', $pin) === false)
 			return false;
@@ -30,7 +30,7 @@ class GPIO
 	public function unexport($pin)
 	{
 		if($this->isExported($pin) === false)
-			return false;
+			throw new GPIOException('Pin #' . $pin . ' is not exported');
 
 		if(file_put_contents(self::SYSFS_PATH . 'unexport', $pin) === false)
 			return false;
@@ -50,11 +50,17 @@ class GPIO
 
 	public function read($pin)
 	{
+		if($this->isExported($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not exported');
+
 		return trim(file_get_contents(sprintf(self::SYSFS_PATH, $pin) . 'value'));
 	}
 
 	public function write($pin, $value)
 	{
+		if($this->isExported($pin) === false)
+			throw new GPIOException('Pin #' . $pin . ' is not exported');
+
 		return file_put_contents(sprintf(self::SYSFS_PATH, $pin) . 'value', $value) !== false;
 	}
 }
