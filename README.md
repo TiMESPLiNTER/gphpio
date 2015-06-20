@@ -15,10 +15,14 @@ Else you may need to apply the following changes [described here](http://www.ele
 The "Hello world" LED-blink script would look like that:
 
 ```php
-$gpio = new GPIO();
+$model = new RPi();
+$gpio = new GPIO($model);
 $pin = 17;
 
-$gpio->export($pin, GPIO::MODE_OUTPUT);
+if($gpio->isExported($pin) === false)
+	$gpio->export($pin, GPIO::MODE_OUTPUT);
+
+echo 'This is a ' , $model->getName() , PHP_EOL;
 
 for($i = 0; $i < 10; ++$i) {
 	$gpio->write($pin, 1);
