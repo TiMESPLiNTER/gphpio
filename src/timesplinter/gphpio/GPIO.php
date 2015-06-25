@@ -39,6 +39,19 @@ class GPIO
 		if($mode === null)
 			return true;
 
+		$waited = 0;
+		$directionFile = sprintf(self::SYSFS_BASE_PATH . self::SYSFS_PIN_PATH, $pin) . 'direction';
+
+		while(($fp = @fopen($directionFile, 'w')) === false) {
+			if($waited > 1000)
+				throw new GPIOException('Can not set direction for pin #' . $pin);
+
+			++$waited;
+			usleep(1);
+		}
+
+		fclose($fp);
+
 		return $this->mode($pin, $mode);
 	}
 
