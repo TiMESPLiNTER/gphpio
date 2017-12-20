@@ -64,7 +64,7 @@ class RPi extends Model
 
 		if(in_array($this->revision, ['a02082', 'a22082', 'a32082']) === true) {
 			// Pi 3 revs
-			return range(2, 25);
+			return range(2, 27);
 		}
 
 		// Pi 1 revs
