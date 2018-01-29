@@ -33,19 +33,25 @@ class RPi extends Model
 
 	protected $revision;
 
+    /**
+     * @throws ModelException
+     */
 	public function __construct()
 	{
-		if(($this->revision = $this->evaluateRevision()) === false)
-			throw new ModelException('This seems not to be a Raspberry Pi model');
+		if(false === ($this->revision = $this->evaluateRevision())) {
+            throw new ModelException('This seems not to be a Raspberry Pi model');
+        }
 	}
 
 	protected function evaluateRevision()
 	{
-		if(($content = file_get_contents('/proc/cpuinfo')) === false)
-			return false;
+		if(false === ($content = file_get_contents('/proc/cpuinfo'))) {
+            return false;
+        }
 
-		if(preg_match('/Revision\s+:\s+([a-f0-9]+)/', $content, $match) === 0)
-			return false;
+		if(0 === preg_match('/Revision\s+:\s+([a-f0-9]+)/', $content, $match)) {
+            return false;
+        }
 
 		return $match[1];
 	}
@@ -57,12 +63,12 @@ class RPi extends Model
 	 */
 	public function getGPIOPins()
 	{
-		if(in_array($this->revision, ['a01041', 'a21041', 'a22042']) === true) {
+		if(true === in_array($this->revision, ['a01041', 'a21041', 'a22042'], true)) {
 			// Pi 2 revs
 			return range(2, 27);
 		}
 
-		if(in_array($this->revision, ['a02082', 'a22082', 'a32082']) === true) {
+		if(true === in_array($this->revision, ['a02082', 'a22082', 'a32082'], true)) {
 			// Pi 3 revs
 			return range(2, 27);
 		}
@@ -78,8 +84,9 @@ class RPi extends Model
 	 */
 	public function getName()
 	{
-		if(isset(self::$modelNameMap[$this->revision]) === false)
-			return 'unknown';
+		if(false === isset(self::$modelNameMap[$this->revision])) {
+            return 'unknown';
+        }
 
 		return self::$modelNameMap[$this->revision];
 	}
