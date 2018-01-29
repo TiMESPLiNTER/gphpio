@@ -24,7 +24,11 @@ class RPi extends Model
 		'0011' => 'Compute Module',
 		'0012' => 'Model A+',
 		'a01041' => 'Pi 2 Model B (Sony, UK)',
-		'a21041' => 'Pi 2 Model B (Embest, CN)'
+		'a21041' => 'Pi 2 Model B (Embest, CN)',
+		'a22042' => 'Pi 2 Model B with BCM2837 (Embest, CN)',
+		'a02082' => 'Pi 3 Model B (Sony, UK)',
+		'a22082' => 'Pi 3 Model B (Embest, CN)',
+		'a32082' => 'Pi 3 Model B (Sony, JP)',
 	];
 
 	protected $revision;
@@ -53,8 +57,13 @@ class RPi extends Model
 	 */
 	public function getGPIOPins()
 	{
-		if(in_array($this->revision, ['a01041', 'a21041']) === true) {
+		if(in_array($this->revision, ['a01041', 'a21041', 'a22042']) === true) {
 			// Pi 2 revs
+			return range(2, 27);
+		}
+
+		if(in_array($this->revision, ['a02082', 'a22082', 'a32082']) === true) {
+			// Pi 3 revs
 			return range(2, 27);
 		}
 
